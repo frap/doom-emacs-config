@@ -39,8 +39,8 @@
         lsp-ui-peek-enable t))
 
 (use-package! lsp-yaml
-  ;;:config
-  ;;(setq lsp-yaml-single-quote t)
+  :config
+  (setq lsp-yaml-single-quote t)
   )
 ;; End of LSP
 ;; ---------------------------------------

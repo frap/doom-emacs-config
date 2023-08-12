@@ -104,8 +104,9 @@
        ;;gist              ; interacting with github gists
        (lookup +dictionary)             ; navigate your code and its documentation
        (lsp +peek)              ; M-x vscode
-       (magit +forge)             ; a git porcelain for Emacs
-       make              ; run make tasks from Emacs
+       (magit ; +forge
+              )      ; a git porcelain for Emacs
+       make                ; run make tasks from Emacs
        ;;pass              ; password manager for nerds
        ;;pdf               ; pdf enhancements
        ;;prodigy           ; FIXME managing external services & code builders
@@ -167,7 +168,8 @@
        ;;plantuml          ; diagrams for confusing people more
        ;;purescript        ; javascript, but functional
        (python            ; beautiful is better than ugly
-        +pyright
+        ;;+pyright
+        +poetry
        ;; +pipenv
         +lsp)
        ;;qt                ; the 'cutest' gui framework ever
