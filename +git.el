@@ -39,11 +39,34 @@
                     magit-branch-prefer-remote-upstream '("master" "main")
                     ))
 
+;; add GH pull requests to log
+(defun modi/add-PR-fetch-ref (&optional remote-name)
+  "If refs/pull is not defined on a GH repo, define it.
 
+If REMOTE-NAME is not specified, it defaults to the `remote' set
+for the \"main\" or \"master\" branch."
+  (let* ((remote-name (or remote-name
+                          (magit-get "branch" "main" "remote")
+                          (magit-get "branch" "master" "remote")))
+         (remote-url (magit-get "remote" remote-name "url"))
+         (fetch-refs (and (stringp remote-url)
+                          (string-match "github" remote-url)
+                          (magit-get-all "remote" remote-name "fetch")))
+         ;; https://oremacs.com/2015/03/11/git-tricks/
+         (fetch-address (format "+refs/pull/*/head:refs/pull/%s/*" remote-name)))
+    (when fetch-refs
+      (unless (member fetch-address fetch-refs)
+        (magit-git-string "config"
+                          "--add"
+                          (format "remote.%s.fetch" remote-name)
+                          fetch-address)))))
+(add-hook 'magit-mode-hook #'modi/add-PR-fetch-ref)
 ;; Location of Git repositories
 ;; define paths and level of sub-directories to search
-;; (setq magit-repository-directories
-;;       '(("~/work/" . 2)))
+(setq magit-repository-directories
+       '(("~/work/" . 2)
+         ("~/money/" . 2)
+         ("~/cs/"    . 2)))
 
 
 ;; Number of topics displayed (issues, pull requests)
