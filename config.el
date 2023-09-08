@@ -103,15 +103,24 @@
         doom-modeline-major-mode-icon t
         doom-modeline-window-width-limit (- fill-column 10)))
 
-
+;;undo using tree
+(remove-hook 'undo-fu-mode-hook #'global-undo-fu-session-mode)
 ;; Projects
 ;; Define a project path to discover projects using SPC Tab D
 ;; https://docs.projectile.mx/projectile/usage.html
 ;; (setq projectile-project-search-path '("~/projects/" "~/work/" ("~/github" . 1)))
-(setq projectile-project-search-path '(("~/work" . 2) ("~/.config" . 1)))
+(setq projectile-project-search-path '(("~/work/money" . 1) ("~/work/cs" . 1) ("~/.config" . 1)))
 
 ;; Disable projectile cache - saves requirement to invalidate cache when moving files
-;; (setq projectile-enable-caching nil)
+(setq ;; projectile-enable-caching nil
+      projectile-sort-order 'recentf )
+
+;; GNU TRAMP Configuration
+(setq tramp-default-method "ssh"                         ; Default to SSH, that's what I primarily use
+      tramp-terminal-type "tramp"                        ; Let other terminal know what client I'm connecting with (might need to configure server)
+      tramp-auto-save-directory "$XDG_CACHE_HOME/tramp/" ; Send Tramp info into XDG Cache directory on machine
+      tramp-chunksize 2000)                              ; Resonable Chunk size for speed and disk space in mind
+
 ;;
 ;; Delete whitespace on save, including in markdow-mode
 (setq ws-butler-global-exempt-modes '(special-mode comint-mode term-mode eshell-mode diff-mode))
@@ -129,9 +138,6 @@
 ;; Which-key and Evil Key Bindings - Spacemacs style
 (load! "+bindings-emacs")
 
-;; Clojure mode & Cider Configuration + key bindings
-(load! "+clojure")
-
 ;; LSP Configuration
 (load! "+lsp")
 
@@ -146,6 +152,15 @@
 
 ;; Structural Editing - Smartparens
 (load! "+smartparens.el")
+
+;; general coding like AI!
+(load! "+coding")
+
+;; Clojure mode & Cider Configuration + key bindings
+(load! "+clojure")
+
+;; Typescript and treesitter
+(load! "+javascript")
 
 ;; Configure packages outside of Doom modules
 ;; - keycast
