@@ -6,42 +6,12 @@
 
 ;; User Identify (optional)
 ;; e.g. GPG configuration, email clients, file templates and snippets
- (setq
-    user-full-name "Andrés Gasson"
-    user-mail-address "gas@troveplatform.co.nz"
-    github-account-name "frap")
+(setq
+ user-full-name "Andrés Gasson"
+ user-mail-address "gas@troveplatform.co.nz"
+ github-account-name "frap")
 
 
-;; Doom exposes five (optional) variables for controlling fonts in Doom:
-;;
-;; - `doom-font' -- the primary font to use
-;; - `doom-variable-pitch-font' -- a non-monospace font (where applicable)
-;; - `doom-big-font' -- used for `doom-big-font-mode'; use this for
-;;   presentations or streaming.
-;; - `doom-unicode-font' -- for unicode glyphs
-;; - `doom-serif-font' -- for the `fixed-pitch-serif' face
-;;
-;; See 'C-h v doom-font' for documentation and more examples of what they
-;; accept. For example:
-;;
-(setq ;;doom-font (font-spec :family "Fira Code" :size 14)
-      doom-font (font-spec :family "Iosevka Curly" :size 13)
-      doom-big-font (font-spec :family "JetBrains Mono" :size  18)
-      doom-variable-pitch-font (font-spec :family "Overpass" :size 14)
-      doom-unicode-font (font-spec :family "JuliaMono" :size 14)
-      doom-serif-font (font-spec :family "IBM Plex Mono" :size 14)
-      doom-variable-pitch-font (font-spec :family "Ubuntu" :size 14))
-
-
-;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
-;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
-;; refresh your font settings. If Emacs still can't find your font, it likely
-;; wasn't installed correctly. Font issues are rarely Doom issues!
-
-;; There are two ways to load a theme. Both assume the theme is installed and
-;; available. You can either set `doom-theme' or manually load a theme with the
-;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-one-light)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -89,6 +59,7 @@
 ;; Practicalli Configuration
 ;; Search https://discourse.doomemacs.org/ for example configuration
 
+(setq doom-theme (if (equal (system-name) "Cable_Guy") 'modus-operandi 'doom-1337))
 ;; Practicalli Logo on startup dashboard
 (setq fancy-splash-image "~/.config/doom/images/practicalli-logo-dark.svg")
 
@@ -109,11 +80,11 @@
 ;; Define a project path to discover projects using SPC Tab D
 ;; https://docs.projectile.mx/projectile/usage.html
 ;; (setq projectile-project-search-path '("~/projects/" "~/work/" ("~/github" . 1)))
-(setq projectile-project-search-path '(("~/work/money" . 1) ("~/work/cs" . 1) ("~/.config" . 1)))
+(setq projectile-project-search-path '(("~/work" . 2)  ("~/.config" . 1) ("~/dev/frap" . 3)))
 
 ;; Disable projectile cache - saves requirement to invalidate cache when moving files
 (setq ;; projectile-enable-caching nil
-      projectile-sort-order 'recentf )
+ projectile-sort-order 'recentf )
 
 ;; GNU TRAMP Configuration
 (setq tramp-default-method "ssh"                         ; Default to SSH, that's what I primarily use
@@ -145,13 +116,10 @@
 (load! "+git")
 
 ;; Markdown mode
-(load! "+markdown.el")
+;;(load! "+markdown.el")
 
 ;; Org-mode  configuraiton
 (load! "+org-mode")
-
-;; Structural Editing - Smartparens
-(load! "+smartparens.el")
 
 ;; general coding like AI!
 (load! "+coding")
@@ -164,6 +132,6 @@
 
 ;; Configure packages outside of Doom modules
 ;; - keycast
-(load! "+package-config")
+;;(load! "+package-config")
 
 ;; ---------------------------------------
