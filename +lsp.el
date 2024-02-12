@@ -9,15 +9,15 @@
 
   ;; Core
   (setq
-        ;; https://emacs-lsp.github.io/lsp-mode/page/settings/headerline/
-        lsp-headerline-breadcrumb-enable t  ; Breadcrumb trail
-        lsp-headerline-breadcrumb-segments '(symbols) ; namespace & symbols, no file path
+   ;; https://emacs-lsp.github.io/lsp-mode/page/settings/headerline/
+   lsp-headerline-breadcrumb-enable t  ; Breadcrumb trail
+   lsp-headerline-breadcrumb-segments '(symbols) ; namespace & symbols, no file path
 
-        lsp-signature-render-documentation nil
-        lsp-signature-function 'lsp-signature-posframe
-        lsp-semantic-tokens-enable t
-        lsp-idle-delay 0.2 ;; Smoother LSP features response in cost of performance (Most servers I use have good performance)
-        lsp-use-plists nil)
+   lsp-signature-render-documentation nil
+   lsp-signature-function 'lsp-signature-posframe
+   lsp-semantic-tokens-enable t
+   lsp-idle-delay 0.2 ;; Smoother LSP features response in cost of performance (Most servers I use have good performance)
+   lsp-use-plists nil)
   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\venv\\'")
   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\env\\'")
   (add-hook 'lsp-after-apply-edits-hook (lambda (&rest _) (save-buffer)))
@@ -40,7 +40,7 @@
 
 (use-package! lsp-yaml
   :config
-  (setq lsp-yaml-single-quote t)
-  )
+  (setq lsp-yaml-single-quote t))
+
 ;; End of LSP
 ;; ---------------------------------------

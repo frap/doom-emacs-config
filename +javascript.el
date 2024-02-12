@@ -2,8 +2,7 @@
 
 ;; auto-format different source code files extremely intelligently
 ;; https://github.com/radian-software/apheleia
-(use-package apheleia
-  :ensure t
+(use-package! apheleia
   :config
   (apheleia-global-mode +1))
 
