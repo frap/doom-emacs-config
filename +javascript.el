@@ -12,13 +12,13 @@
 ;;         (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src" nil nil))))
 
 
-(add-to-list 'treesit-extra-load-path
-             (expand-file-name "~/local/external/tree-sitter-module/dist"))
+;; (add-to-list 'treesit-extra-load-path
+;;              (expand-file-name "~/.config/emacs/tree-sitter"))
 
-(use-package typescript-ts-mode
-  :mode (("\\.ts\\'" . typescript-ts-mode)
-         ("\\.tsx\\'" . tsx-ts-mode))
-  :config
-  (add-hook! '(typescript-ts-mode-hook tsx-ts-mode-hook) #'lsp!))
+;; (use-package typescript-ts-mode
+;;   :mode (("\\.ts\\'" . typescript-ts-mode)
+;;          ("\\.tsx\\'" . tsx-ts-mode))
+;;   :config
+;;   (add-hook! '(typescript-ts-mode-hook tsx-ts-mode-hook) #'lsp!))
 
 (setq +tree-sitter-hl-enabled-modes '(python-mode typescript-ts-mode))

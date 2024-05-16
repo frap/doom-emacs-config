@@ -29,7 +29,8 @@
        ;;layout            ; auie,ctsrnm is the superior home row
 
        :completion
-       company           ; the ultimate code completion backend
+       ;;company           ; the ultimate code completion backend
+       (corfu +orderless +dabbrev)  ; complete with cap(f), cape and a flying feather!
        ;;helm              ; the *other* search engine for love and life
        ;;ido               ; the other *other* search engine...
        ;;ivy               ; a search engine for love and life
@@ -39,24 +40,26 @@
        ;;deft              ; notational velocity for Emacs
        doom              ; what makes DOOM look the way it does
        doom-dashboard    ; a nifty splash screen for Emacs
-       ;;doom-quit         ; DOOM quit-message prompts when you quit Emacs
+       doom-quit         ; DOOM quit-message prompts when you quit Emacs
        (emoji +unicode)  ; 🙂
        hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
        ;;hydra
        ;;indent-guides     ; highlighted indent columns
-       ligatures         ; ligatures and symbols to make your code pretty again
+       (ligatures  +extra)       ; ligatures and symbols to make your code pretty again
        ;;minimap           ; show a map of the code on the side
        modeline          ; snazzy, Atom-inspired modeline, plus API
-       ;;nav-flash         ; blink cursor line after big motions
+       nav-flash         ; blink cursor line after big motions
        ;;neotree           ; a project drawer, like NERDTree for vim
        ophints           ; highlight the region an operation acts on
-       (popup +defaults)   ; tame sudden yet inevitable temporary windows
+       (popup
+        +all              ; catch all popups that start with an asterix
+        +defaults)       ; tame sudden yet inevitable temporary windows
        ;;tabs              ; a tab bar for Emacs
        (treemacs +lsp)          ; a project drawer, like neotree but cooler
        unicode           ; extended unicode support for various languages
        (vc-gutter +pretty) ; vcs diff in the fringe
-       ;; vi-tilde-fringe   ; fringe tildes to mark beyond EOB
-       ;;window-select     ; visually switch windows
+       vi-tilde-fringe   ; fringe tildes to mark beyond EOB
+       (window-select +numbers)     ; visually switch windows
        workspaces        ; tab emulation, persistence & separate workspaces
        zen               ; distraction-free coding or writing
 
@@ -67,17 +70,17 @@
        (format +onsave)  ; automated prettiness
        ;;god               ; run Emacs commands without modifier keys
        ;;lispy             ; vim for lisp, for people who don't like vim
-       multiple-cursors  ; editing in many places at once
+       multiple-cursors    ; editing in many places at once
        ;;objed             ; text object editing for the innocent
        ;;parinfer          ; turn lisp into python, sort of
-       ;;rotate-text       ; cycle region at point between text candidates
+       rotate-text       ; cycle region at point between text candidates
        snippets          ; my elves. They type so I don't have to
        word-wrap         ; soft wrapping with language-aware indent
 
        :emacs
-       (dired +ranger)            ; making dired pretty [functional]
+       (dired +icons)            ; making dired pretty [functional]
        electric          ; smarter, keyword-based electric-indent
-       ibuffer           ; interactive buffer management
+       (ibuffer +icons)         ; interactive buffer management
        (undo +tree)      ; persistent, smarter undo for your inevitable mistakes
        vc                ; version-control and Emacs, sitting in a tree
 
@@ -96,7 +99,7 @@
        ;;ansible
        ;;biblio            ; Writes a PhD for you (citation needed)
        ;;debugger          ; FIXME stepping through code, to help you add bugs
-       direnv
+       ;; direnv
        ;;(docker +lsp)
        editorconfig      ; let someone else argue about tabs vs spaces
        ;;ein               ; tame Jupyter notebooks with emacs
@@ -115,7 +118,7 @@
        terraform         ; infrastructure as code
        ;;tmux              ; an API for interacting with tmux
        tree-sitter         ; syntax and parsing, sitting in a tree...
-       ;;upload            ; map local to remote projects via ssh/ftp
+       upload            ; map local to remote projects via ssh/ftp
 
        :os
        (:if IS-MAC macos)  ; improve compatibility with macOS
@@ -163,7 +166,17 @@
        ;;nim               ; python + lisp at the speed of c
        ;;nix               ; I hereby declare "nix geht mehr!"
        ;;ocaml             ; an objective camel
-       org               ; organize your plain life in plain text
+       ( org               ; organize your plain life in plain text
+         +dragndrop                  ; drag & drop files/images into org buffers
+         ;;+hugo                     ; use Emacs for hugo blogging
+         +noter                      ; enhanced PDF notetaking
+         +jupyter                    ; ipython/jupyter support for babel
+         +pandoc                     ; export-with-pandoc support
+         +gnuplot                    ; who doesn't like pretty pictures
+         +pomodoro         ; be fruitful with the tomato technique
+         +present           ; using org-mode for presentations
+         ;;+roam2           ; wander around notes
+         )
        ;;php               ; perl's insecure younger brother
        ;;plantuml          ; diagrams for confusing people more
        ;;purescript        ; javascript, but functional

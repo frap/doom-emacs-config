@@ -15,7 +15,7 @@
         clojure-align-forms-automatically t
         clojure-toplevel-inside-comment-form t  ;; evaluate expressions in comment as top level
         )
-   (setq clojure-toplevel-inside-comment-form t
+  (setq clojure-toplevel-inside-comment-form t
         ;; Because of CIDER's insistence to send forms to all linked REPLs, we
         ;; *have* to be able to switch cljc buffer to clj/cljs mode without
         ;; cider complaining.
@@ -112,7 +112,7 @@
 (defun portal.api/open ()
   (interactive)
   (cider-nrepl-sync-request:eval
-    "(do (ns dev) (def portal ((requiring-resolve 'portal.api/open))) (add-tap (requiring-resolve 'portal.api/submit)))"))
+   "(do (ns dev) (def portal ((requiring-resolve 'portal.api/open))) (add-tap (requiring-resolve 'portal.api/submit)))"))
 
 (defun portal.api/clear ()
   (interactive)
@@ -298,12 +298,12 @@ specific project."
       :map clojure-mode-map
       :localleader
       (:prefix "t"
-       (:prefix ("k". "Kaocha")
-        :desc "Run current test" "t" #'kaocha-runner-run-test-at-point
-        :desc "Run test" "r" #'kaocha-runner-run-tests
-        :desc "Run all tests" "a" #'kaocha-runner-run-all-tests
-        :desc "Runner Warnings" "w" #'kaocha-runner-show-warnings
-        :desc "Kaocha Runner" "h" #'kaocha-runner-hide-windows)))
+               (:prefix ("k". "Kaocha")
+                :desc "Run current test" "t" #'kaocha-runner-run-test-at-point
+                :desc "Run test" "r" #'kaocha-runner-run-tests
+                :desc "Run all tests" "a" #'kaocha-runner-run-all-tests
+                :desc "Runner Warnings" "w" #'kaocha-runner-show-warnings
+                :desc "Kaocha Runner" "h" #'kaocha-runner-hide-windows)))
 
 
 ;; End of Clojure Key bindings
@@ -314,7 +314,7 @@ specific project."
 ;; Clojure-mode configurations
 ;;
 ;; Do not indent single ; comment characters
-;; (add-hook 'clojure-mode-hook (lambda () (setq-local comment-column 0)))
+(add-hook 'clojure-mode-hook (lambda () (setq-local comment-column 0)))
 
 ;; Auto-indent code automatically
 ;; https://emacsredux.com/blog/2016/02/07/auto-indent-your-code-with-aggressive-indent-mode/
