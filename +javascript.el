@@ -6,19 +6,13 @@
   :config
   (apheleia-global-mode +1))
 
-;;(after! tree-sitter
-;; (setq treesit-language-source-alist
-;;       '((typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src" nil nil)
-;;         (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src" nil nil))))
-
-
-;; (add-to-list 'treesit-extra-load-path
-;;              (expand-file-name "~/.config/emacs/tree-sitter"))
-
-;; (use-package typescript-ts-mode
-;;   :mode (("\\.ts\\'" . typescript-ts-mode)
-;;          ("\\.tsx\\'" . tsx-ts-mode))
-;;   :config
-;;   (add-hook! '(typescript-ts-mode-hook tsx-ts-mode-hook) #'lsp!))
 
 (setq +tree-sitter-hl-enabled-modes '(python-mode typescript-ts-mode))
+
+(defun my-setup-dap-node ()
+  "Require dap-node feature and run dap-node-setup if VSCode module isn't already installed"
+  (require 'dap-node)
+  (unless (file-exists-p dap-node-debug-path) (dap-node-setup)))
+
+(add-hook 'typescript-mode-hook 'my-setup-dap-node)
+(add-hook 'javascript-mode-hook 'my-setup-dap-node)
