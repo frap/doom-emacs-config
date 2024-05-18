@@ -59,7 +59,7 @@
 ;; Practicalli Configuration
 ;; Search https://discourse.doomemacs.org/ for example configuration
 
-(setq doom-theme (if (equal (system-name) "Cable_Guy") 'modus-operandi 'doom-1337))
+(setq doom-theme (if (equal (system-name) "Cable_Guy") 'modus-operandi-tritanopia 'doom-1337))
 ;; Practicalli Logo on startup dashboard
 (setq fancy-splash-image "~/.config/doom/images/practicalli-logo-dark.svg")
 
@@ -78,8 +78,6 @@
 (remove-hook 'undo-fu-mode-hook #'global-undo-fu-session-mode)
 ;; Projects
 ;; Define a project path to discover projects using SPC Tab D
-;; https://docs.projectile.mx/projectile/usage.html
-;; (setq projectile-project-search-path '("~/projects/" "~/work/" ("~/github" . 1)))
 (setq projectile-project-search-path '(("~/work" . 2)  ("~/.config" . 1) ("~/dev/frap" . 3)))
 
 ;; Disable projectile cache - saves requirement to invalidate cache when moving files
