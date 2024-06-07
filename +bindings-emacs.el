@@ -136,3 +136,25 @@
 (bind-key "M-t e"             'transpose-sexps)
 (bind-key "M-t s"             'transpose-sentences)
 (bind-key "M-t p"             'transpose-paragraphs)
+
+;;; multiple-cursors
+
+;; Remember `er/expand-region' is bound to M-2!
+(global-set-key (kbd "C-M-j") 'mc/mark-all-dwim) ; both marked and unmarked region. multiple presses
+;; disable cursors C-g first press unmarks regions. 2n press disables mc (M-x mc/keyboard-quit)
+
+;; for continuous lines: Mark lines, the create cursors. Can be mid-line
+(global-set-key (kbd "C-M-c") #'mc/edit-lines)
+
+;; Expand region
+(global-set-key (kbd "C-M-l") #'er/expand-region)
+;; insert a new line C-j
+
+;; Select region first, then create cursors
+(global-set-key (kbd "C-M-/") #'mc/mark-all-like-this) ; select text 1st. finds all occurrences
+(global-set-key (kbd "C-M-,") #'mc/mark-previous-like-this)
+(global-set-key (kbd "C-M-.") #'mc/mark-next-like-this)
+
+;; Skip the match and move to next one
+(global-set-key (kbd "C-M-<") #'mc/skip-to-previous-like-this)
+(global-set-key (kbd "C-M->") #'mc/skip-to-next-like-this)
