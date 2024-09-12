@@ -1,7 +1,11 @@
-;;; +git.el -*- lexical-binding: t; -*-
+;;; +cmd-tools.el -*- lexical-binding: t; -*-
 
-;; ---------------------------------------
-;; Version Control configuration
+;; GNU TRAMP Configuration
+(setq tramp-default-method "ssh"                         ; Default to SSH, that's what I primarily use
+      tramp-terminal-type "tramp"                        ; Let other terminal know what client I'm connecting with (might need to configure server)
+      tramp-auto-save-directory "$XDG_CACHE_HOME/tramp/" ; Send Tramp info into XDG Cache directory on machine
+      tramp-chunksize 2000)                              ; Resonable Chunk size for speed and disk space in mind
+
 
 ;; Load magit-todos
 (use-package! magit-todos)
@@ -64,9 +68,9 @@ for the \"main\" or \"master\" branch."
 ;; Location of Git repositories
 ;; define paths and level of sub-directories to search
 (setq magit-repository-directories
-       '(("~/work/" . 2)
-         ("~/money/" . 2)
-         ("~/cs/"    . 2)))
+      '(("~/work/" . 1)
+        ("~/money/" . 1)
+        ("~/cs/"    . 1)))
 
 
 ;; Number of topics displayed (issues, pull requests)

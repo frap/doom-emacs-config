@@ -77,5 +77,12 @@
 ;; reveal pressos
 (package! org-reveal)
 (package! ox-reveal)
+(package! org-present)
+(package! visual-fill-column)
 ;; node debug
 (package! dap-mode)
+;; jinja
+(package! jinja2-mode)
+
+(package! copilot
+  :recipe (:host github :repo "copilot-emacs/copilot.el" :files ("*.el")))
