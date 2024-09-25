@@ -1,5 +1,6 @@
-;;; +ui.el -*- lexical-binding: t; -*-
+;;; package --- +ui.el -*- lexical-binding: t; -*-
 
+;;; Commentary:
 (setq doom-theme (if (equal (system-name) "Cable_Guy") 'modus-vivendi-tinted 'doom-1337))
 ;; Practicalli Logo on startup dashboard
 (setq fancy-splash-image "~/.config/doom/images/practicalli-logo-dark.svg")

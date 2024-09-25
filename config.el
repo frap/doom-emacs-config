@@ -30,7 +30,7 @@
 
 ;; Org-mode  configuraiton
 (load! "+org-mode")
-;;(load! "+org-present")
+(load! "+org-present")
 
 ;; general data coding yaml and copilot and parens
 (load! "+coding")
@@ -51,4 +51,4 @@
 
 ;; Configure packages outside of Doom modules
 ;; - keycast
-;;(load! "+package-config")
+(load! "+package-config")

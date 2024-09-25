@@ -170,7 +170,7 @@
          ;;+hugo                     ; use Emacs for hugo blogging
          +journal
          +noter                      ; enhanced PDF notetaking
-         +jupyter                    ; ipython/jupyter support for babel
+         ;;+jupyter                    ; ipython/jupyter support for babel
          +pretty
          +pandoc                     ; export-with-pandoc support
          +gnuplot                    ; who doesn't like pretty pictures
@@ -179,13 +179,13 @@
          ;;+roam2           ; wander around notes
          )
        ;;php               ; perl's insecure younger brother
-       ;;plantuml          ; diagrams for confusing people more
+       plantuml          ; diagrams for confusing people more
        ;;purescript        ; javascript, but functional
        (python            ; beautiful is better than ugly
         +lsp
         +pyright
-        ;; +poetry
-        ;; +pipenv
+        +poetry
+        +pipenv
         )
        ;;qt                ; the 'cutest' gui framework ever
        ;;racket            ; a DSL for DSLs

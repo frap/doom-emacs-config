@@ -84,5 +84,7 @@
 ;; jinja
 (package! jinja2-mode)
 
+(package! magit-todos)
+
 (package! copilot
   :recipe (:host github :repo "copilot-emacs/copilot.el" :files ("*.el")))
