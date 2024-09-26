@@ -8,6 +8,17 @@
 (setq ;; projectile-enable-caching nil
  projectile-sort-order 'recentf )
 
+(require 'pyenv-mode)
+
+(defun projectile-pyenv-mode-set ()
+  "Set pyenv version matching project name."
+  (let ((project (projectile-project-name)))
+    (if (member project (pyenv-mode-versions))
+        (pyenv-mode-set project)
+      (pyenv-mode-unset))))
+
+(add-hook 'projectile-after-switch-project-hook 'projectile-pyenv-mode-set)
+
 ;;undo using tree
 ;;(remove-hook 'undo-fu-mode-hook #'global-undo-fu-session-mode)
 
@@ -27,8 +38,8 @@
 
 ;; accept completion from copilot and fallback to company
 (use-package! copilot
-;;  :custom
-;;  (copilot-disable-predicates '(always))
+  ;;  :custom
+  ;;  (copilot-disable-predicates '(always))
   :hook (prog-mode . copilot-mode)
   :hook (yaml-mode . copilot-mode)
   :bind

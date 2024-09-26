@@ -184,8 +184,8 @@
        (python            ; beautiful is better than ugly
         +lsp
         +pyright
-        +poetry
-        +pipenv
+        +tree-sitter
+        +pyenv
         )
        ;;qt                ; the 'cutest' gui framework ever
        ;;racket            ; a DSL for DSLs
@@ -223,6 +223,6 @@
        (default +bindings +smartparens)
 
        :frap
-       copilot
-       (:if (featurep! :term eshell) eshell-extra)
+       ;;copilot
+       ;;(:if (featurep! :term eshell) eshell-extra)
        )

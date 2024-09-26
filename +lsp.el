@@ -6,7 +6,6 @@
 (use-package! lsp-mode
   :commands lsp
   :config
-
   ;; Core
   (setq
    ;; https://emacs-lsp.github.io/lsp-mode/page/settings/headerline/
@@ -18,10 +17,12 @@
    lsp-semantic-tokens-enable t
    lsp-idle-delay 0.2 ;; Smoother LSP features response in cost of performance (Most servers I use have good performance)
    lsp-use-plists nil)
-  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\venv\\'")
-  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\env\\'")
   (add-hook 'lsp-after-apply-edits-hook (lambda (&rest _) (save-buffer)))
   (add-hook 'lsp-mode-hook (lambda () (setq-local company-format-margin-function #'company-vscode-dark-icons-margin))))
+
+(after! lsp-mode
+  (dolist (dir '("[/\\\\]\\.git$" "[/\\\\]node_modules$" "[/\\\\]\\venv$"  "[/\\\\]\\.venv$"  "[/\\\\]\\.env$"  "[/\\\\]\\env$"))
+    (push dir lsp-file-watch-ignored)))
 
 (use-package! lsp-treemacs
   :config
