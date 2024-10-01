@@ -20,12 +20,11 @@
             mac-command-modifier 'super
             mac-option-modifier 'meta
             mac-right-option-modifier 'nil
-            ;;   mac-pass-control-to-system nil ;; what does this do?
             ))
 
 
 ;; ;;; Replace
-(define-key esc-map "&"       'query-replace-regexp) ; redefined ESC-&.
+;;(define-key esc-map "&"       'query-replace-regexp) ; redefined ESC-&.
 ;; (bind-key "M-<tab>"           'company-complete-common-or-cycle)
 ;;(bind-key "M-#"               'query-replace-regexp)
 (bind-key "M-\""              'insert-pair)	; wrap text in quotes.
@@ -82,14 +81,14 @@
 (bind-key "C-c D"             'delete-current-file-and-buffer)
 
 ;;;; Buffers
-(global-set-key [C-left] 'previous-buffer)
-(global-set-key [C-right] 'next-buffer)
+;;(global-set-key [C-left] 'previous-buffer)
+;;(global-set-key [C-right] 'next-buffer)
 (global-set-key (kbd "M-n") 'next-buffer)
 (global-set-key (kbd "M-p") 'previous-buffer)
 
 ;;;; window
-(bind-key "C-,"               'prev-window)
-(bind-key "C-."               'other-window)
+(bind-key [C-left]        'prev-window)
+(bind-key [C-right]       'other-window)
 ;;(bind-key "C-x 3"             'split-and-follow-vertically)
 ;;(bind-key "C-x 2"             'split-and-follow-horizontally)
 
@@ -101,30 +100,42 @@
               (eval (car command-history))))
 
 ;;;smartparens
-(map!
- (:after smartparens
-         (:map smartparens-mode-map
-               [C-M-a]   #'sp-beginning-of-sexp
-               [C-M-e]   #'sp-end-of-sexp
-               [C-M-f]   #'sp-forward-sexp
-               [C-M-b]   #'sp-backward-sexp
-               [C-M-k]   #'sp-kill-sexp
-               [C-M-t]   #'sp-transpose-sexp
+(use-package! smartparens
+  :config
+  ;; Enable smartparens strict mode for Clojure and Emacs Lisp
+  (add-hook 'clojure-mode-hook #'smartparens-strict-mode)
+  (add-hook 'emacs-lisp-mode-hook #'smartparens-strict-mode)
 
-               [C-<right>] #'sp-forward-slurp-sexp
-               [C-<left>]  #'sp-forward-barf-sexp
+  ;; Load the default smartparens configuration
+  (require 'smartparens-config)
 
-               [M-left]    #'sp-beginning-of-sexp
-               [M-right]   #'sp-end-of-sexp
-               [M-up]      #'sp-backward-up-sexp
-               [M-down]    #'sp-backward-down-sexp
-               [s-down]    #'sp-down-sexp
-               [s-up]      #'sp-up-sexp
-               [s-left]    #'sp-backward-sexp
-               [s-right]   #'sp-forward-sexp
-               [M-s-right] #'sp-next-sexp
-               [M-s-left]  #'sp-previous-sexp
-               )))
+  (map! :map smartparens-mode-map
+        ;; Movement
+        "C-M-f"   #'sp-forward-sexp
+        "C-M-b"   #'sp-backward-sexp
+        "C-M-u"   #'sp-backward-up-sexp
+        "C-M-d"   #'sp-down-sexp
+        "C-M-p"   #'sp-backward-down-sexp
+        "C-M-n"   #'sp-up-sexp
+        "C-M-k"   #'sp-kill-sexp
+        "C-M-t"   #'sp-transpose-sexp
+
+        ;; Slurping and barfing
+        "C-)"     #'sp-forward-slurp-sexp
+        "C-("     #'sp-backward-slurp-sexp
+        "M-)"     #'sp-forward-barf-sexp
+        "M-("     #'sp-backward-barf-sexp
+
+        ;; Wrapping
+        "M-["     #'sp-wrap-square
+        "M-{"     #'sp-wrap-curly
+        "M-\""    #'sp-wrap-doublequote
+
+        ;; Splicing
+        "M-s"    #'sp-splice-sexp
+        "M-S"    #'sp-split-sexp
+        "M-j"    #'sp-join-sexp
+        ))
 
 ;;;;; transpose
 (bind-key "M-t" nil) ; remove the old keybinding

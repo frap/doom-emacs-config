@@ -15,8 +15,6 @@
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/org-personal/")
 
-
-
 ;; --------------------------------------------------
 ;; Gas Doom Configuration
 ;; Search https://discourse.doomemacs.org/ for example configuration

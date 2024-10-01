@@ -1,5 +1,22 @@
 ;;; +cmd-tools.el -*- lexical-binding: t; -*-
 
+;; setup shell
+(setq explicit-shell-file-name "/opt/homebrew/bin/zsh")
+(setq shell-file-name "zsh")
+(setq explicit-zsh-args '("--login" "--interactive"))
+(defun zsh-shell-mode-setup ()
+  (setq-local comint-process-echoes t))
+(add-hook 'shell-mode-hook #'zsh-shell-mode-setup)
+
+(use-package bash-completion
+  :init (autoload
+          'bash-completion-dynamic-complete
+          "bash-completion"
+          "BASH completion hook")
+  (add-hook
+   'shell-dynamic-complete-functions
+   #'bash-completion-dynamic-complete))
+
 ;; GNU TRAMP Configuration
 (setq tramp-default-method "ssh"                         ; Default to SSH, that's what I primarily use
       tramp-terminal-type "tramp"                        ; Let other terminal know what client I'm connecting with (might need to configure server)
@@ -13,9 +30,10 @@
 ;; Location of developer tokens - default ~/.authinfo
 ;; Use XDG_CONFIG_HOME location or HOME
 ;; Optional:  (setq auth-source-cache-expiry nil)   ; default is 7200 (2h)
-(setq auth-sources (list
-                    (concat (getenv "XDG_CACHE_HOME") "/authinfo.gpg")
-                    "~/.authinfo.gpg"))
+(setq auth-sources
+      (list
+       (concat (getenv "XDG_CACHE_HOME") "/authinfo.gpg")
+       "~/.authinfo.gpg"))
 
 
 ;; Use Emacs as $EDITOR (or $GIT_EDITOR) for git commits messages
@@ -28,20 +46,21 @@
 ;; - checks for overlong-summary-line non-empty-line
 ;; (setq git-commit-summary-max-length 50
 ;;       git-commit-style-convention-checks '(overlong-summary-line non-empty-second-line))
-(after! magit (setq git-commit-summary-max-length 60
+(after! magit
+  (setq git-commit-summary-max-length 60
 
-                    magit-push-current-set-remote-if-missing nil
-                    ;; Highlight specific characters changed
-                    magit-diff-refine-hunk 'all
+        magit-push-current-set-remote-if-missing nil
+        ;; Highlight specific characters changed
+        magit-diff-refine-hunk 'all
 
-                    ;; Show project TODO lines in Magit Status
-                    magit-todos-mode t
+        ;; Show project TODO lines in Magit Status
+        magit-todos-mode t
 
-                    ;; Show Libravatar of commit author
-                    magit-revision-show-gravatars '("^Author:     " . "^Commit:     ")
+        ;; Show Libravatar of commit author
+        magit-revision-show-gravatars '("^Author:     " . "^Commit:     ")
 
-                    magit-branch-prefer-remote-upstream '("master" "main")
-                    ))
+        magit-branch-prefer-remote-upstream '("master" "main")
+        ))
 
 ;; add GH pull requests to log
 (defun modi/add-PR-fetch-ref (&optional remote-name)
@@ -68,8 +87,7 @@ for the \"main\" or \"master\" branch."
 ;; Location of Git repositories
 ;; define paths and level of sub-directories to search
 (setq magit-repository-directories
-      '(("~/work/" . 1)
-        ("~/money/" . 1)
+      '(("~/money/" . 1)
         ("~/cs/"    . 1)))
 
 
@@ -92,9 +110,3 @@ for the \"main\" or \"master\" branch."
 ;; Blacklist specific accounts, over-riding forge-owned-accounts
 ;; (setq forge-owned-blacklist
 ;;       '(("bad-hacks" "really-bad-hacks")))
-;;
-;;
-;;
-;;
-;; End of Version Control configuration
-;; ---------------------------------------

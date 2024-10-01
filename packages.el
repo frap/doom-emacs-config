@@ -68,6 +68,7 @@
 (package! keycast :pin "16d9961d15536054632be1eff75fd0fb1a4420f8")
 
 (package! deadgrep)
+(package! bash-completion)
 ;; Very large files mode loads large files in chunks to open ridiculously large files.
 (package! typescript-ts-mode)
 (package! apheleia)
