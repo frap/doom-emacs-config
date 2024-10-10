@@ -24,7 +24,7 @@
             mac-right-option-modifier 'nil
             ))
 
-
+(global-set-key [remap dabbrev-expand] #'hippie-expand)
 ;; ;;; Replace
 ;;(define-key esc-map "&"       'query-replace-regexp) ; redefined ESC-&.
 ;; (bind-key "M-<tab>"           'company-complete-common-or-cycle)

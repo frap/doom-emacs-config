@@ -11,7 +11,20 @@
       tramp-auto-save-directory "$XDG_CACHE_HOME/tramp/" ; Send Tramp info into XDG Cache directory on machine
       tramp-chunksize 2000)                              ; Resonable Chunk size for speed and disk space in mind
 
-
+;;hippie-expand
+(setq hippie-expand-try-functions-list
+      '(try-expand-list
+        try-expand-dabbrev-visible
+        try-expand-dabbrev
+        try-expand-all-abbrevs
+        try-expand-dabbrev-all-buffers
+        try-complete-file-name-partially
+        try-complete-file-name
+        try-expand-dabbrev-from-kill
+        try-expand-whole-kill
+        try-expand-line
+        try-complete-lisp-symbol-partially
+        try-complete-lisp-symbol))
 ;; Load magit-todos
 (use-package! magit-todos)
 
