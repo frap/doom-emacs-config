@@ -1,21 +1,9 @@
 ;;; +cmd-tools.el -*- lexical-binding: t; -*-
 
 ;; setup shell
-(setq explicit-shell-file-name "/opt/homebrew/bin/zsh")
-(setq shell-file-name "zsh")
-(setq explicit-zsh-args '("--login" "--interactive"))
-(defun zsh-shell-mode-setup ()
-  (setq-local comint-process-echoes t))
-(add-hook 'shell-mode-hook #'zsh-shell-mode-setup)
+(setq explicit-shell-file-name "/opt/homebrew/bin/bash")
+(setq shell-file-name "bash")
 
-(use-package bash-completion
-  :init (autoload
-          'bash-completion-dynamic-complete
-          "bash-completion"
-          "BASH completion hook")
-  (add-hook
-   'shell-dynamic-complete-functions
-   #'bash-completion-dynamic-complete))
 
 ;; GNU TRAMP Configuration
 (setq tramp-default-method "ssh"                         ; Default to SSH, that's what I primarily use

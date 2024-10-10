@@ -65,20 +65,21 @@
 
 ;; Keycast
 ;; latest release 2020-11-17
-(package! keycast :pin "16d9961d15536054632be1eff75fd0fb1a4420f8")
+;;(package! keycast :pin "16d9961d15536054632be1eff75fd0fb1a4420f8")
 
 (package! deadgrep)
 (package! bash-completion)
 ;; Very large files mode loads large files in chunks to open ridiculously large files.
-(package! typescript-ts-mode)
+;;(package! typescript-ts-mode)
 (package! apheleia)
 ;;(package! typescript-mode :disable t)
 ;; (package! vlf :recipe (:host github :repo "m00natic/vlfi" :files ("*.el"))
 ;;   :pin "cc02f2533782d6b9b628cec7e2dcf25b2d05a27c" :disable t)
 ;; reveal pressos
-(package! org-reveal)
-(package! ox-reveal)
+;;(package! org-reveal)
+;;(package! ox-reveal)
 (package! org-present)
+(package! org-super-agenda)
 (package! visual-fill-column)
 ;; node debug
 (package! dap-mode)
@@ -89,3 +90,18 @@
 
 (package! copilot
   :recipe (:host github :repo "copilot-emacs/copilot.el" :files ("*.el")))
+
+(package! vertico
+  :recipe (:files (:defaults "extensions/*")
+           :includes (vertico-indexed
+                      vertico-flat
+                      vertico-grid
+                      vertico-mouse
+                      vertico-quick
+                      vertico-buffer
+                      vertico-repeat
+                      vertico-reverse
+                      vertico-directory
+                      vertico-multiform
+                      vertico-unobtrusive
+                      )))

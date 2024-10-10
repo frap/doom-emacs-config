@@ -43,6 +43,7 @@
 
 ;; Magit and tramp
 (load! "+cmd-tools")
+(load! "+shell")
 
 ;; my Emacs Key Bindings
 (load! "+bindings-emacs")

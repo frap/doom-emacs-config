@@ -6,6 +6,8 @@
   (interactive)
   (other-window -1))
 
+(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+
 ;;;; unbind-key
 (global-unset-key (kbd "C-z")) ; unbind (suspend-frame)
 (global-unset-key (kbd "C-x C-z")) ; also this
@@ -29,16 +31,16 @@
 ;;(bind-key "M-#"               'query-replace-regexp)
 (bind-key "M-\""              'insert-pair)	; wrap text in quotes.
 
-(use-package! crux)
+;;(use-package! crux)
 ;; Key binding vars
 ;;
 ;;global settings
-(global-set-key [remap move-beginning-of-line] #'crux-move-beginning-of-line)
-(global-set-key (kbd "C-c o") #'crux-open-with)
-(global-set-key [(shift return)] #'crux-smart-open-line)
-(global-set-key (kbd "s-r") #'crux-recentf-find-file)
-(global-set-key (kbd "C-<backspace>") #'crux-kill-line-backwards)
-(global-set-key [remap kill-whole-line] #'crux-kill-whole-line)
+;; (global-set-key [remap move-beginning-of-line] #'crux-move-beginning-of-line)
+;; (global-set-key (kbd "C-c o") #'crux-open-with)
+;; (global-set-key [(shift return)] #'crux-smart-open-line)
+;; (global-set-key (kbd "s-r") #'crux-recentf-find-file)
+;; (global-set-key (kbd "C-<backspace>") #'crux-kill-line-backwards)
+;; (global-set-key [remap kill-whole-line] #'crux-kill-whole-line)
 ;;(map! "C-x C-f" #'counsel-find-file
 ;;      "C-x C-c" #'save-buffers-kill-terminal)
 
@@ -78,13 +80,13 @@
 (bind-key "M-Q"               'unfill-paragraph)
 (bind-key "C-x C-z"           'toggle-truncate-lines) ; long lines go off the screen
 (bind-key "C-S-R"             'rename-file)
-(bind-key "C-c D"             'delete-current-file-and-buffer)
+;;(bind-key "C-c D"             'delete-current-file-and-buffer)
 
 ;;;; Buffers
 ;;(global-set-key [C-left] 'previous-buffer)
 ;;(global-set-key [C-right] 'next-buffer)
-(global-set-key (kbd "M-n") 'next-buffer)
-(global-set-key (kbd "M-p") 'previous-buffer)
+                                        ;(global-set-key (kbd "M-n") 'next-buffer)
+;;(global-set-key (kbd "M-p") 'previous-buffer)
 
 ;;;; window
 (bind-key [C-left]        'prev-window)
@@ -94,7 +96,7 @@
 
 
 ;;; Interactive-bindings
-;;;; resume/run previous cmnd
+;;;; resume/run previous cmd
 (bind-key "C-r"
           #'(lambda () (interactive)
               (eval (car command-history))))
@@ -121,10 +123,14 @@
         "C-M-t"   #'sp-transpose-sexp
 
         ;; Slurping and barfing
-        "C-)"     #'sp-forward-slurp-sexp
-        "C-("     #'sp-backward-slurp-sexp
-        "M-)"     #'sp-forward-barf-sexp
-        "M-("     #'sp-backward-barf-sexp
+        "C-)"         #'sp-forward-slurp-sexp
+        "C-<right>"   #'sp-forward-slurp-sexp
+        "C-("         #'sp-backward-slurp-sexp
+        "C-M-<right>" #'sp-backward-slurp-sexp
+        "M-)"         #'sp-forward-barf-sexp
+        "C-<left>"    #'sp-forward-barf-sexp
+        "M-("         #'sp-backward-barf-sexp
+        "C-M-<left>"  #'sp-backward-barf-sexp
 
         ;; Wrapping
         "M-["     #'sp-wrap-square
@@ -137,16 +143,61 @@
         "M-j"    #'sp-join-sexp
         ))
 
+;; A Spacemacs like Lisp state menu (without the transient state)
+
+(map! :leader
+      (:prefix ("k". "Smartparens")
+       :desc "Slurp forward" "s" #'sp-forward-slurp-sexp
+       :desc "Slurp backward" "S" #'sp-backward-slurp-sexp
+       :desc "" "$"   #'sp-end-of-sexp
+       (:prefix ("`" . "Hybrid"))
+       :desc "Kill" "k" #'sp-kill-hybrid-sexp
+       :desc "Push" "p" #'sp-push-hybrid-sexp
+       :desc "Slurp" "s" #'sp-slurp-hybrid-sexp
+       :desc "Transpose" "t" #'sp-transpose-hybrid-sexp
+       :desc "Absorb" "a" #'sp-absorb-sexp
+       :desc "Barf forward" "b" #'sp-forward-barf-sexp
+       :desc "Barf backward" "B" #'sp-backward-barf-sexp
+       :desc "Convoluted" "c" #'sp-convolute-sexp
+       (:prefix ("d" . "Delete")
+        :desc "Symbol" "s" #'sp-kill-symbol
+        :desc "Symbol Backward" "S" #'sp-backward-kill-symbol
+        :desc "Word" "w" #'sp-kill-word
+        :desc "Word Backward" "W" #'sp-backward-kill-word
+        :desc "Kill" "x" #'sp-kill-sexp
+        :desc "Kill Backward" "X" #'sp-backward-kill-sexp)
+       :desc "Splice" "e" #'sp-splice-sexp-killing-forward
+       :desc "Splice Backward" "E" #'sp-splice-sexp-killing-backward
+       :desc "Symbol Backward" "h" #'sp-backward-symbol
+       :desc "Sexp Backward" "H" #'sp-backward-sexp
+       :desc "Join" "j" #'sp-join-sexp
+       :desc "Sexp Forward" "l" #'sp-forward-sexp
+       :desc "Sexp Forward" "L" #'sp-forward-sexp
+       :desc "Raise" "r" #'sp-raise-sexp
+       :desc "Slurp" "s" #'sp-forward-slurp-sexp
+       :desc "Slurp Backward" "S" #'sp-backward-slurp-sexp
+       :desc "Transpose" "t" #'sp-transpose-sexp
+       :desc "Up Backward" "U" #'sp-backward-up-sexp
+       (:prefix ("w" . "Wrap")
+        :desc "()" "(" #'sp-wrap-round
+        :desc "{}" "{" #'sp-wrap-curly
+        :desc "[]" "[" #'sp-wrap-square
+        :desc "Round" "w" #'sp-wrap-round
+        :desc "Curly" "c" #'sp-wrap-curly
+        :desc "Square" "s" #'sp-wrap-square
+        :desc "Unwrap" "u" #'sp-unwrap-sexp)
+       :desc "Copy sexp" "y" #'sp-copy-sexp))
+
 ;;;;; transpose
-(bind-key "M-t" nil) ; remove the old keybinding
-(bind-key "M-t c"             'transpose-chars)
-(bind-key "M-t w"             'transpose-words)
-(bind-key "M-t t"             'transpose-words)
-(bind-key "M-t M-t"           'transpose-words)
-(bind-key "M-t l"             'transpose-lines)
-(bind-key "M-t e"             'transpose-sexps)
-(bind-key "M-t s"             'transpose-sentences)
-(bind-key "M-t p"             'transpose-paragraphs)
+;; (bind-key "M-t" nil) ; remove the old keybinding
+;; (bind-key "M-t c"             'transpose-chars)
+;; (bind-key "M-t w"             'transpose-words)
+;; (bind-key "M-t t"             'transpose-words)
+;; (bind-key "M-t M-t"           'transpose-words)
+;; (bind-key "M-t l"             'transpose-lines)
+;; (bind-key "M-t e"             'transpose-sexps)
+;; (bind-key "M-t s"             'transpose-sentences)
+;; (bind-key "M-t p"             'transpose-paragraphs)
 
 ;;; multiple-cursors
 

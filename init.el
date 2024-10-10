@@ -42,7 +42,6 @@
        doom-quit         ; DOOM quit-message prompts when you quit Emacs
        ;;(emoji +unicode)  ; 🙂
        hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
-       hydra
        ;;indent-guides     ; highlighted indent columns
        (ligatures  +extra)       ; ligatures and symbols to make your code pretty again
        ;;minimap           ; show a map of the code on the side
@@ -77,22 +76,22 @@
        word-wrap         ; soft wrapping with language-aware indent
 
        :emacs
-       (dired +ranger +icons)            ; making dired pretty [functional]
+       (dired +icons)    ; making dired pretty [functional]
        electric          ; smarter, keyword-based electric-indent
-       (ibuffer +icons)         ; interactive buffer management
-       (undo +tree)      ; persistent, smarter undo for your inevitable mistakes
+       (ibuffer +icons)  ; interactive buffer management
+       undo              ; persistent, smarter undo for your inevitable mistakes
        vc                ; version-control and Emacs, sitting in a tree
 
        :term
        eshell            ; the elisp shell that works everywhere
-       ;;shell             ; simple shell REPL for Emacs
+       shell             ; simple shell REPL for Emacs
        ;;term              ; basic terminal emulator for Emacs
        ;;vterm             ; the best terminal emulation in Emacs
 
        :checkers
-       (syntax +childframe)             ; tasing you for every semicolon you forget
-       ;;(spell +flyspell) ; tasing you for misspelling mispelling
-       ;;grammar           ; tasing grammar mistake every you make
+       (syntax +childframe) ; tasing you for every semicolon you forget
+       ;;(spell +flyspell)  ; tasing you for misspelling mispelling
+       ;;grammar            ; tasing grammar mistake every you make
 
        :tools
        ;;ansible
@@ -112,7 +111,6 @@
        pass              ; password manager for nerds
        pdf               ; pdf enhancements
        ;;prodigy           ; FIXME managing external services & code builders
-       rgb               ; creating color strings
        ;;taskrunner        ; taskrunner for all your projects
        terraform         ; infrastructure as code
        ;;tmux              ; an API for interacting with tmux
@@ -128,7 +126,7 @@
        ;;beancount         ; mind the GAAP
        ;;(cc +lsp)         ; C > C++ == 1
        (clojure +lsp)           ; java with a lisp
-       common-lisp         ; if you've seen one lisp, you've seen them all
+       ;;common-lisp         ; if you've seen one lisp, you've seen them all
        ;;coq               ; proofs-as-programs
        ;;crystal           ; ruby at the speed of c
        ;;csharp            ; unity, .NET, and mono shenanigans
@@ -146,7 +144,7 @@
        ;;fsharp            ; ML stands for Microsoft's Language
        ;;fstar             ; (dependent) types and (monadic) effects and Z3
        ;;gdscript          ; the language you waited for
-       (go +lsp +treesitter)         ; the hipster dialect
+       ;;(go +lsp +treesitter)         ; the hipster dialect
        (graphql +lsp)    ; Give queries a REST
        ;;(haskell +lsp)    ; a language that's lazier than I am
        ;;hy                ; readability of scheme w/ speed of python
@@ -193,7 +191,7 @@
        rest              ; Emacs as a REST client
        ;;rst               ; ReST in peace
        ;;(ruby +rails)     ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
-       (rust +lsp)       ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
+       ;;(rust +lsp)       ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
        ;;scala             ; java, but good
        ;;(scheme +guile)   ; a fully conniving family of lisps
        (sh +tree-sitter)              ; she sells {ba,z,fi}sh shells on the C xor

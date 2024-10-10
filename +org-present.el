@@ -128,7 +128,7 @@
 
 
 ;; reveal
-(load-library "ox-reveal")
+;;(load-library "ox-reveal")
 ;; Wrap <img> tag in a <figure> tag
 (setq org-html-html5-fancy t
       org-html-doctype "html5")

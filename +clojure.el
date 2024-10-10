@@ -37,6 +37,17 @@
 (use-package! cider
   :after clojure-mode
   :config
+  (setq cider-babashka-parameters "nrepl-server 0"
+	clojure-toplevel-inside-comment-form t)
+
+  (cider-register-cljs-repl-type 'nbb-or-scittle-or-joyride "(+ 1 2 3)")
+
+  (defun mm/cider-connected-hook ()
+    (when (eq 'nbb-or-scittle-or-joyride cider-cljs-repl-type)
+      (setq-local cider-show-error-buffer nil)
+      (cider-set-repl-type 'cljs)))
+  (add-hook 'cider-connected-hook #'mm/cider-connected-hook)
+
   (setq cider-show-error-buffer t               ; show stacktrace buffer
         cider-print-fn 'puget                   ; pretty printing with sorted keys / set values
         cider-result-overlay-position 'at-point ; results shown right after expression
@@ -63,7 +74,35 @@
   (set-popup-rule! "*cider-test-report*" :side 'right :width 0.4)
   (set-popup-rule! "^\\*cider-repl" :side 'bottom :quit nil)
   ;; use lsp completion
-  (add-hook 'cider-mode-hook (lambda () (remove-hook 'completion-at-point-functions #'cider-complete-at-point))))
+  ;;(add-hook 'cider-mode-hook (lambda () (remove-hook 'completion-at-point-functions #'cider-complete-at-point)))
+  ;; this is a simpler cider complete that
+  ;; that does everything I need together with orderless.
+  ;; also complete locals
+
+  (defun mm/cider-complete-at-point ()
+    "Complete the symbol at point."
+    (when (and (cider-connected-p)
+	       (not (cider-in-string-p)))
+      (when-let*
+	  ((bounds
+	    (bounds-of-thing-at-point
+	     'symbol))
+	   (beg (car bounds))
+	   (end (cdr bounds))
+	   (completion
+	    (append
+	     (cider-complete
+	      (buffer-substring beg end))
+	     (get-text-property (point) 'cider-locals))))
+	(list
+	 beg
+	 end
+	 (completion-table-dynamic
+	  (lambda (_) completion))
+	 :annotation-function #'cider-annotate-symbol))))
+
+  (advice-add 'cider-complete-at-point :override #'mm/cider-complete-at-point)
+  )
 
 
 

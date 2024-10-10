@@ -5,6 +5,17 @@
 ;; Practicalli Logo on startup dashboard
 (setq fancy-splash-image "~/.config/doom/images/practicalli-logo-dark.svg")
 
+
+(global-display-line-numbers-mode t)
+
+;; Disable line numbers for some modes
+(dolist (mode '(org-mode-hook
+                term-mode-hook
+                shell-mode-hook
+                treemacs-mode-hook
+                eshell-mode-hook))
+  (add-hook mode (lambda () (display-line-numbers-mode 0))))
+
 ;; Open Doom Emacs maximised
 ;;(add-to-list 'default-frame-alist '(fullscreen . maximized))
 

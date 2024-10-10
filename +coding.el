@@ -1,9 +1,26 @@
 ;;; ../../dev/emacs/practicalli-doom/+coding.el -*- lexical-binding: t; -*-
 
+;;; Show matching parenthesis
+(show-paren-mode 1)
+;;; By default, there’s a small delay before showing a matching parenthesis. Set
+;;; it to 0 to deactivate.
+(setq show-paren-delay 0)
+(setq show-paren-when-point-inside-paren t)
+
+(setq show-paren-style 'parenthesis)
+;;; Electric Pairs to auto-complete () [] {} "" etc. It works on regions.
+
+(electric-pair-mode)
+(setq redisplay-skip-fontification-on-input t
+      fast-but-imprecise-scrolling t)
+(global-so-long-mode 1)
+
 ;; Projects
 ;; Define a project path to discover projects using SPC Tab D
 ;;(setq projectile-project-search-path '(("~/work" . 2)  ("~/.config" . 1) ("~/dev/frap" . 2)))
 
+(after! projectile (setq projectile-project-root-files-bottom-up (remove ".git"
+                                                                         projectile-project-root-files-bottom-up)))
 ;; Disable projectile cache - saves requirement to invalidate cache when moving files
 (setq ;; projectile-enable-caching nil
  projectile-sort-order 'recentf )
@@ -75,50 +92,7 @@
 
 ;; (advice-add 'keyboard-quit :before #'rk/copilot-quit)
 
-;; A Spacemacs like Lisp state menu (without the transient state)
 
-;; (map! :leader
-;;       (:prefix ("k". "Smartparens")
-;;        :desc "Slurp forward" "s" #'sp-forward-slurp-sexp
-;;        :desc "Slurp backward" "S" #'sp-backward-slurp-sexp
-;;        :desc "" "$"   #'sp-end-of-sexp
-;;        (:prefix ("`" . "Hybrid"))
-;;        :desc "Kill" "k" #'sp-kill-hybrid-sexp
-;;        :desc "Push" "p" #'sp-push-hybrid-sexp
-;;        :desc "Slurp" "s" #'sp-slurp-hybrid-sexp
-;;        :desc "Transpose" "t" #'sp-transpose-hybrid-sexp
-;;        :desc "Absorb" "a" #'sp-absorb-sexp
-;;        :desc "Barf forward" "b" #'sp-forward-barf-sexp
-;;        :desc "Barf backward" "B" #'sp-backward-barf-sexp
-;;        :desc "Convoluted" "c" #'sp-convolute-sexp
-;;        (:prefix ("d" . "Delete")
-;;         :desc "Symbol" "s" #'sp-kill-symbol
-;;         :desc "Symbol Backward" "S" #'sp-backward-kill-symbol
-;;         :desc "Word" "w" #'sp-kill-word
-;;         :desc "Word Backward" "W" #'sp-backward-kill-word
-;;         :desc "Kill" "x" #'sp-kill-sexp
-;;         :desc "Kill Backward" "X" #'sp-backward-kill-sexp)
-;;        :desc "Splice" "e" #'sp-splice-sexp-killing-forward
-;;        :desc "Splice Backward" "E" #'sp-splice-sexp-killing-backward
-;;        :desc "Symbol Backward" "h" #'sp-backward-symbol
-;;        :desc "Sexp Backward" "H" #'sp-backward-sexp
-;;        :desc "Join" "j" #'sp-join-sexp
-;;        :desc "Sexp Forward" "l" #'sp-forward-sexp
-;;        :desc "Sexp Forward" "L" #'sp-forward-sexp
-;;        :desc "Raise" "r" #'sp-raise-sexp
-;;        :desc "Slurp" "s" #'sp-forward-slurp-sexp
-;;        :desc "Slurp Backward" "S" #'sp-backward-slurp-sexp
-;;        :desc "Transpose" "t" #'sp-transpose-sexp
-;;        :desc "Up Backward" "U" #'sp-backward-up-sexp
-;;        (:prefix ("w" . "Wrap")
-;;         :desc "()" "(" #'sp-wrap-round
-;;         :desc "{}" "{" #'sp-wrap-curly
-;;         :desc "[]" "[" #'sp-wrap-square
-;;         :desc "Round" "w" #'sp-wrap-round
-;;         :desc "Curly" "c" #'sp-wrap-curly
-;;         :desc "Square" "s" #'sp-wrap-square
-;;         :desc "Unwrap" "u" #'sp-unwrap-sexp)
-;;        :desc "Copy sexp" "y" #'sp-copy-sexp))
 ;; JavaScript
 (add-hook 'js-mode-hook
           (lambda ()
