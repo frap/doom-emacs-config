@@ -11,6 +11,7 @@
    org-directory "~/org/personal"
    ;; Define the location of the file to hold tasks
    org-default-notes-file "~/org/personal/inbox.org"
+   org-agenda-files (file-expand-wildcards "~/org/personal/*.org")
 
    ;; Define stages for todo tasks
    org-todo-keywords
@@ -18,17 +19,19 @@
    ;;org-todo-keywords '((sequence "TODO" "DOING" "BLOCKED" "REVIEW" "|" "DONE" "ARCHIVED"))
    ;;
    org-todo-keyword-faces '(("PROJ" . +org-todo-active)
+                            ("COUR" . +org-todo-active)
                             ("WAIT" . +org-todo-onhold)
                             ("CNCL" . +org-todo-cancel))
 
    ;; trigger task states
-   org-todo-state-tags-triggers
-   (quote (("CNCL" ("CNCL" . t))
-           ("WAIT" ("WAIT" . t))
-           (done ("WAIT"))
-           ("TODO" ("WAIT") ("CNCL"))
-           ("PROJ" ("WAIT") ("CNCL"))
-           ("DONE" ("WAIT") ("CNCL"))))
+   ;; org-todo-state-tags-triggers
+   ;; (quote (("CNCL" ("CNCL" . t))
+   ;;         ("WAIT" ("WAIT" . t))
+   ;;         (done ("WAIT"))
+   ;;         ("COUR" ("WAIT") ("CNCL"))
+   ;;         ("TODO" ("COUR") ("WAIT") ("CNCL"))
+   ;;         ("PROJ" ("WAIT") ("CNCL"))
+   ;;         ("DONE" ("WAIT") ("CNCL"))))
 
    ;; When item enters DONE, add a CLOSED: property with current date-time stamp
    org-log-done 'time
@@ -37,7 +40,7 @@
    ;; Using X11 colour names from: https://en.wikipedia.org/wiki/Web_colors
    hl-todo-keyword-faces
    '(("TODO" . "SlateGray")
-     ("COUR" . "CyanBlue")
+     ("COUR" . "LightBlue")
      ("PROJ" . "DarkOrchid")
      ("WAIT" . "Firebrick")
      ("DONE" . "ForestGreen")
@@ -45,7 +48,7 @@
 
    org-todo-keyword-faces
    '(("TODO" . "SlateGray")
-     ("COUR" . "CyanBlue")
+     ("COUR" . "LightBlue")
      ("PROJ" . "DarkOrchid")
      ("WAIT" . "Firebrick")
      ("DONE" . "ForestGreen")
@@ -81,22 +84,6 @@
           (tags     . "  %-12:c")
           (search   . "  %-12:c")))
 
-  (setq org-agenda-hide-tags-regexp ".")
-  ;;(setq org-agenda-tags-column -120)
-  ;;(setq org-tags-column -80)
-
-  (setq org-agenda-sorting-strategy
-        '((agenda habit-down time-up priority-down category-keep)
-          (todo priority-down todo-state-up category-keep)
-          (tags priority-down todo-state-up category-keep)
-          (search category-keep)))
-
-  (defun log-todo-next-creation-date (&rest ignore)
-    "Log COUR (en cours) creation time in the property drawer under the key 'ACTIVÉ'"
-    (when (and (string= (org-get-todo-state) "COUR")
-               (not (org-entry-get nil "ACTIVÉ")))
-      (org-entry-put nil "ACTIVÉ" (format-time-string "[%Y-%m-%d]"))))
-  (add-hook 'org-after-todo-state-change-hook #'log-todo-next-creation-date)
 
   ;; M-x org-agenda # to show the stuck projects
   ;; (setq org-stuck-projects
@@ -107,28 +94,6 @@
   (setq refile-targets (file-expand-wildcards "~/org/personal/*.org"))
   (setq org-refile-targets '(( refile-targets :todo . "PROJ" )))
 
-  ;; (setq org-capture-templates
-  ;;       '(
-  ;;         ("i" "Boîte de Réception" entry
-  ;;          (file "~/org/personal/inbox.org")
-  ;;          "* TODO %^{Brève description de la tâche}\nCREATED: %U\n%?" :empty-lines 1 :prepend t)
-
-  ;;         ("n" "Next action" entry
-  ;;          (file "~/org/personal/main.org")
-  ;;          "** TODO %^{Brief Description}\nCREATED: %U\n%?" :empty-lines 1 :prepend t)
-
-  ;;         ("w" "en attendant" entry
-  ;;          (file "~/org/personal/main.org")
-  ;;          "** WAIT %^{Brief Description}\nCREATED: %U\n%?" :empty-lines 1 :prepend t)
-
-  ;;         ("p" "Projet" entry
-  ;;          (file "~/org/personal/main.org")
-  ;;          "* PROJ %^{Brief Description}\n:PROPERTIES:\n:CATEGORY: %^{Id}\n:END:\nCREATED: %U\n%?" :empty-lines 1 :prepend t)
-
-  ;;         ("s" "Un Jour" entry
-  ;;          (file "~/org/personal/someday.org")
-  ;;          "* TODO %^{Brief Description}\nCREATED: %U\n%?" :empty-lines 1 :prepend t)
-  ;;         ))
 
   ;; To show the agenda in a more compact manner and skip a time line when something is scheduled:
 
@@ -140,9 +105,34 @@
 
   ;; GTD setup
   (setq org-capture-templates
-        `(("t" "Brève description de la Tâche" entry (file "inbox.org")
+        `(("t" "Brève description de la tâche non urgente" entry (file+headline "inbox.org" "Tâches" )
            ,(string-join '("* TODO %?"
                            ":PROPERTIES:"
+                           ":CATEGORY: tâche"
+                           ":CREATED: %U"
+                           ":END:"
+                           )
+                         "\n"))
+          ("p" "Brève description de la Projet" entry (file+headline "inbox.org" "Projets")
+           ,(string-join '("* PROJ %?"
+                           ":PROPERTIES:"
+                           ":CATEGORY: %^{Projet}"
+                           ":CREATED: %U"
+                           ":END:"
+                           "/Contexte:/ %a")
+                         "\n"))
+          ("u" "Brève description de la tâche urgente" entry (file+headline "inbox.org" "Tâches")
+           ,(string-join '("* TODO %? :@urgente:"
+                           ":PROPERTIES:"
+                           ":CATEGORY: tâche"
+                           ":CREATED: %U"
+                           ":END:"
+                           )
+                         "\n"))
+          ("i" "Brève description de la tâche importante" entry (file+headline "inbox.org" "Tâches")
+           ,(string-join '("* TODO %? :@importante:"
+                           ":PROPERTIES:"
+                           ":CATEGORY: tâche"
                            ":CREATED: %U"
                            ":END:")
                          "\n"))
@@ -153,57 +143,20 @@
                            ":END:")
                          "\n"))
           ("m" "Réunion" entry (file+headline "agenda.org" "Avenir")
-           ,(string-join '("* %? :meeting:"
-                           "<%<%Y-%m-%d %a %H:00>>"
+           ,(string-join '("* %? :@meeting:"
+                           "<%<%Y-%m-%d %a %H:00-%H:30>>"
                            "\n"
-                           "Rencontré: "
+                           "/Rencontré:/ %a"
                            "\n")))
-          ("p" "Brève description de la Projet" entry (file "inbox.org")
-           ,(string-join '("* PROJ %?"
-                           ":PROPERTIES:"
-                           ":CATEGORY: %^{Projet}"
-                           ":CREATED: %U"
-                           ":END:")
-                         "\n"))
           ("a" "Rendez-vous" entry (file "inbox.org")
-           ,(string-join '("* %? :appointment:"
+           ,(string-join '("* %? :@appointment:"
+                           "<%<%Y-%m-%d %a %H:00-%H:50>>"
                            ":PROPERTIES:"
                            ":CREATED: %U"
                            ":END:")
                          "\n"))
           ))
 
-
-
-  ;;(define-key global-map "\C-c n c" 'org-capture)
-  ;; (setq org-agenda-custom-commands
-  ;;       '(("g" "Faire avancer les choses (GTD)"
-  ;;          ;; Only show entries with the tag "inbox" -- just in case some entry outside inbox.org still has that file
-  ;;          ((tags "inbox"
-  ;;                 ((org-agenda-prefix-format "  %?-12t% s")
-  ;;                  ;; The list of items is already filtered by this tag, no point in showing that it exists
-  ;;                  (org-agenda-hide-tags-regexp "inbox")
-  ;;                  ;; The header of this section should be "Inbox: clarify and organize"
-  ;;                  (org-agenda-overriding-header "\nInbox: clarifier et organiser\n")))))))
-  ;; I will be using add-to-list to shadow the previous values in org-capture-templates. The new versions of a task
-  ;; and note will have an extra line linking to the context they were taken in (placeholder %a)
-  ;; (add-to-list 'org-capture-templates
-  ;;              `("t" "Tâche" entry (file "inbox.org")
-  ;;                ,(string-join '("* TODO %?"
-  ;;                                ":PROPERTIES:"
-  ;;                                ":CREATED: %U"
-  ;;                                ":END:"
-  ;;                                "/Context:/ %a")
-  ;;                              "\n"
-  ;;                              )))
-  ;; (add-to-list 'org-capture-templates
-  ;;              `("n" "Note" entry (file "inbox.org")
-  ;;                ,(string-join '("* %?"
-  ;;                                ":PROPERTIES:"
-  ;;                                ":CREATED: %U"
-  ;;                                ":END:"
-  ;;                                "/Context:/ %a")
-  ;;                              "\n")))
 
   ;; (require 'dash)
 
@@ -238,7 +191,7 @@
   ;;     ))
 
   ;; (setq org-refile-contexts
-  ;;       '((((("inbox.org") . (:regexp . "Projects"))) ;; example
+  ;;       '((((("inbox.org") . (:regexp . "Projets"))) ;; example
   ;;          ((lambda () (string= (org-find-top-headline) "Inbox")))
   ;;          )
   ;;         ;; 6: Notes without a project go to notes.org
@@ -247,61 +200,86 @@
   ;;          ((lambda () ('regexp ":my_type:")))
   ;;          )
   ;;         ))
+  ;; ORG Agenda
 
+  (setq org-agenda-hide-tags-regexp ".")
+  (setq org-agenda-tags-column -120)
+  ;;(setq org-tags-column -80)
+
+  (setq org-agenda-sorting-strategy
+        '((agenda habit-down time-up priority-down category-keep)
+          (todo priority-down todo-state-up category-keep)
+          (tags priority-down todo-state-up category-keep)
+          (search category-keep)))
+
+  (defun log-todo-next-creation-date (&rest ignore)
+    "Log COUR (en cours) creation time in the property drawer under the key 'ACTIVÉ'"
+    (when (and (string= (org-get-todo-state) "COUR")
+               (not (org-entry-get nil "ACTIVÉ")))
+      (org-entry-put nil "ACTIVÉ" (format-time-string "[%Y-%m-%d]"))))
+
+  (defun my/org-pomodoro-update-tag ()
+    (when (org-get-todo-state)
+      (org-todo "COUR")))
+  (add-hook 'org-pomodoro-started-hook #'my/org-pomodoro-update-tag)
+
+  (add-hook 'org-after-todo-state-change-hook #'log-todo-next-creation-date)
   ;; (setq org-agenda-files (list "inbox.org" "agenda.org"
   ;;                              "notes.org" "projects.org"))
+  ;;
+  ;;(define-key global-map "\C-c n c" 'org-capture)
   (setq org-agenda-custom-commands
         '(("g" "Faire avancer les choses (GTD)"
-           ;; Only show entries with the tag "inbox" -- just in case some entry outside inbox.org still has that file
-           ((todo "TODO"
-                  ((org-agenda-prefix-format "  %?-12t% s")
-                   (org-agenda-overriding-header "\nBoîte de Réception: clarifier et organiser\n")))
-            ;; (agenda ""
-            ;;         ((org-agenda-skip-function
-            ;;           '(org-agenda-skip-entry-if 'deadline))
-            ;;          (org-deadline-warning-days 0)))
-            (todo "COUR"
-                  ((org-agenda-skip-function
-                    '(org-agenda-skip-entry-if 'deadline))
-                   (org-agenda-prefix-format "  %i %-12:c [%e] ")
-                   (org-agenda-overriding-header "\nTâches en cours\n")))
-            (agenda nil
-                    ((org-agenda-entry-types '(:deadline))
-                     (org-agenda-format-date "")
-                     (org-deadline-warning-days 7)
+           ((agenda ""
+                    ((org-agenda-span 5)
                      (org-agenda-skip-function
-                      '(org-agenda-skip-entry-if 'notregexp "\\* COUR"))
-                     (org-agenda-overriding-header "\nDeadlines")))
+                      '(org-agenda-skip-entry-if 'deadline))
+                     (org-deadline-warning-days 0)
+                     (org-agenda-overriding-header "\nBoîte de Réception: clarifier et organiser\n")
+                     ))
+            (tags-todo "@importante"
+                       ((org-agenda-skip-function
+                         '(org-agenda-skip-entry-if 'deadline))
+                        (org-agenda-prefix-format "  %i %-12:c [%e] ")
+                        (org-agenda-overriding-header "\nTâches Importantes\n")))
+            (tags-todo "@urgente"
+                       ((org-agenda-skip-function
+                         '(org-agenda-skip-entry-if 'deadline))
+                        (org-agenda-prefix-format "  %i %-12:c [%e] ")
+                        (org-agenda-overriding-header "\nTâches Urgentes\n")))
+            ;; (agenda nil
+            ;;         ((org-agenda-entry-types '(:deadline))
+            ;;          (org-agenda-format-date "")
+            ;;          (org-deadline-warning-days 7)
+            ;;          (org-agenda-skip-function
+            ;;           '(org-agenda-skip-entry-if 'notregexp "\\* COUR"))
+            ;;          (org-agenda-overriding-header "\nDeadlines")))
             ;; Show tasks that can be started and their estimates, do not show inbox
-            (todo "TODO"
-                  ((org-agenda-skip-function
-                    '(org-agenda-skip-entry-if 'deadline 'scheduled))
-                   (org-agenda-files (list "agenda.org" "inbox.org"))
-                   (org-agenda-prefix-format "  %i %-12:c [%e] ")
-                   (org-agenda-max-entries 5)
-                   (org-agenda-overriding-header "\nTâches: Peut être fait\n")))
-            ;; Show tasks on hold
-            (tags-todo "WAIT"
-                       ((org-agenda-prefix-format "  %i %-12:c [%e] ")
-                        (org-agenda-overriding-header "\nTâches: en attente\n")))
-            ;; Show tasks that are in progress
-            (tags-todo "PROJ"
-                       ((org-agenda-prefix-format "  %i %-12:c [%e] ")
-                        (org-agenda-overriding-header "\nProjets en cours\n")))
-
+            (tags-todo "-@importante-@urgente-@meeting"
+                       ((org-agenda-skip-function
+                         '(org-agenda-skip-entry-if 'deadline 'scheduled))
+                        (org-agenda-files (list "agenda.org" "inbox.org"))
+                        (org-agenda-prefix-format "  %i %-12:c [%e] ")
+                        (org-agenda-max-entries 5)
+                        (org-agenda-overriding-header "\nTâches peut être fait\n")))
+            (todo "WAIT"
+                  ((org-agenda-prefix-format "  %i %-12:c [%e] ")
+                   (org-agenda-overriding-header "\nTâches en attente\n")))
             ;; Show tasks that I completed today
             (tags "CLOSED>=\"<today>\""
-                  ((org-agenda-overriding-header "\nTerminé aujourd'hui\n"))))
+                  ((org-agenda-overriding-header "\nTerminé aujourd'hui\n")))
+            )
            (
             ;; The list of items is already filtered by this tag, no point in showing that it exists
-            (org-agenda-hide-tags-regexp "inbox")))
+            (org-agenda-hide-tags-regexp "inbox")
+            ))
           ("G" "Toutes les tâches réalisables"
-           ((todo "TODO"
+           ((todo "TODO|COUR|PROJ"
                   ((org-agenda-skip-function
                     '(org-agenda-skip-entry-if 'deadline 'scheduled))
                    (org-agenda-files (list "inbox.org" "agenda.org"))
                    (org-agenda-prefix-format "  %i %-12:c [%e] ")
-                   (org-agenda-overriding-header "\nTâches: réalisables\n")))
+                   (org-agenda-overriding-header "\nTâches: Réalisables\n")))
             (agenda nil
                     ((org-scheduled-past-days 0)
                      (org-deadline-warning-days 0)))))))
